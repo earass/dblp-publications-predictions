@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+
+<body>
+<div class="jumbotron text-center">
+<h1>Earass Ahmad</h1>
+ <h2>Number of papers prediction</h2>
+    </div>
+
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-sm-4" style="padding-left: 20px; font-size: 30px">
+        <h2>Number of publications by top 15 journals</h2>
+  <img src="{{ url_for('static', filename = 'Number of publications by top 15 journals.png') }}" class="img-rounded" alt="Cinque Terre" width="700" height="600">
+    </div>
+        <div class="row">
+        <div class="col-sm-4" style="padding-left: 20px; font-size: 30px">
+        <h2>Number of publications by Year</h2>
+  <img src="{{ url_for('static', filename = 'Number of publications by Year.png') }}" class="img-rounded" alt="Cinque Terre" width="700" height="600">
+    </div>
+            <div class="row">
+        <div class="col-sm-4" style="padding-left: 20px; font-size: 30px">
+        <h2>Top 15 Journal volume by Year</h2>
+  <img src="{{ url_for('static', filename = 'Top 15 Journal volume by Year.png') }}" class="img-rounded" alt="Cinque Terre" width="700" height="600">
+    </div>
+    </div>
+        </div></div>
+</div>
+
+
+<div class="jumbotron">
+    <div class="row">
+      <div class="col-sm-6" style="padding-left: 20px; font-size: 30px">
+  <form action="/">
+      <h2>Select Journal</h2>
+<select name="journal" id="journal">
+    {% for x in journals %}
+    <option value="{{x.journal}}">{{x.journal}}</option>
+    {% endfor %}
+</select>
+    <br>
+      <h2>Type year</h2>
+    <input type="text" name="year" size="20" >
+    <br>
+  <input type="submit" value="Submit" class="btn btn-primary">
+    </form>
+  </div>
+      <div class="col-sm-6" style="padding-left: 20px; font-size: 30px">
+          <div class="container">
+  <h2>Models Performance</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>RMSE</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Decision Tree Regressor</td>
+        <td>22.6</td>
+      </tr>
+      <tr>
+        <td>Linear Regression</td>
+        <td>86.2</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+      </div>
+  </div>
+
+    <div class="col-sm-6" style="padding-left: 20px; padding-top: 80px; font-size: 30px">
+
+
+       {% if preds is not none %}
+        <table id="table" style="width:100%", border="1">
+            <thead>
+              <tr>
+                <th>Journal Name</th>
+                <th>Year</th>
+                <th>Linear Regression</th>
+                <th>Decision Tree Regressor</th>
+              </tr>
+    </thead>
+            <tbody>
+
+            {% for item in preds %}
+        <tr>
+            <td>{{ item.journal }}</td>
+            <td>{{ item.year }}</td>
+            <td>{{ item.LR }}</td>
+            <td>{{ item.DTR }}</td>
+        </tr>
+    {% endfor %}
+            {% endif %}
+            </tbody>
+
+        </table>
+
+
+    </div>
+</div>
+</body>
+<script>
+
+    $(document).ready( function () {
+    $('#table').DataTable();
+} );
+
+</script>
+</html>
